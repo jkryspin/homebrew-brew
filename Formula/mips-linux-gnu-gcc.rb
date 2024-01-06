@@ -10,9 +10,9 @@ class MipsLinuxGnuGcc < Formula
     formula "gcc"
   end
 
-  depends_on "mips-linux-gnu-binutils"
   depends_on "gmp"
   depends_on "libmpc"
+  depends_on "mips-linux-gnu-binutils"
   depends_on "mpfr"
 
   def install
@@ -30,8 +30,8 @@ class MipsLinuxGnuGcc < Formula
                               "--disable-shared"
       system "make", "all-gcc", "-j#{ENV.make_jobs}"
       system "make", "install-gcc"
-      #system "make", "all-target-libgcc"
-      #system "make", "install-target-libgcc"
+      # system "make", "all-target-libgcc"
+      # system "make", "install-target-libgcc"
 
       # FSF-related man pages may conflict with native gcc
       (share/"man/man7").rmtree
