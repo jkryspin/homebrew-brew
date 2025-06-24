@@ -11,13 +11,18 @@ class MipsLinuxGnuBinutils < Formula
   uses_from_macos "zlib"
 
   def install
+    # Fix zutil.h for macOS 15.x SDK fdopen conflict - target line 140 specifically
+    inreplace "zlib/zutil.h", "#        define fdopen(fd,mode) NULL /* No fdopen() */", "/* #        define fdopen(fd,mode) NULL */ /* No fdopen() - disabled for macOS */"
+    
     system "./configure", "--prefix=#{prefix}",
                           "--infodir=#{info}",
                           "--mandir=#{man}",
                           "--target=mips-linux-gnu",
                           "--disable-gprof",
                           "--disable-gdb",
-                          "--disable-werror"
+                          "--disable-werror",
+                          "--disable-nls",
+                          "--enable-deterministic-archives"
     system "make"
     system "make", "install"
   end
